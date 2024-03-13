@@ -1,6 +1,7 @@
 package org.cherepovskyi.game.main;
 
 import org.cherepovskyi.game.entity.Player;
+import org.cherepovskyi.game.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,17 +14,26 @@ public class GamePanel extends JPanel implements Runnable {
 
     public final int tileSize = originalTileSize * scale;
 
-    final int maxScreenCol = 16;
-    final int maxScreenRow = 12;
-    final int screenWidth = tileSize * maxScreenCol;
-    final int screenHeight = tileSize * maxScreenRow;
+    public final int maxScreenCol = 16;
+    public final int maxScreenRow = 12;
+    public final int screenWidth = tileSize * maxScreenCol;
+    public final int screenHeight = tileSize * maxScreenRow;
+
+    //WORLD SATTINGS
+    public final int maxWorldCol = 50;
+    public final int maxWorldRow = 50;
+    public final int WorldWidth = tileSize*maxWorldCol;
+    public final int WorldHeigt = tileSize*maxWorldRow;
+
+
 
     //FPS
     int FPS = 60;
 
+    TileManager tileM = new TileManager(this);
     KeyHandler keyH = new KeyHandler();
     Thread gameThread;
-    Player player = new Player(this, keyH);
+    public Player player = new Player(this, keyH);
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -40,7 +50,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     @Override
     public void run() {
-        double drawInterval = 1000000000 / FPS;
+        double drawInterval = (double) 1000000000 / FPS;
         double nextDrawTime = System.nanoTime() + drawInterval;
 
         while (gameThread != null) {
@@ -74,7 +84,8 @@ public class GamePanel extends JPanel implements Runnable {
 
         Graphics2D g2 = (Graphics2D) g;
 
-        player.paintComponent(g2);
+        tileM.draw(g2);
+        player.draw(g2);
         g2.dispose();
     }
 }
