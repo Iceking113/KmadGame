@@ -38,7 +38,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //ENTITY AND OBJECT
     public Player player = new Player(this, keyH);
-    public SuperObject obj[] = new SuperObject[10];
+    public SuperObject[] obj = new SuperObject[10];
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -120,9 +120,9 @@ public class GamePanel extends JPanel implements Runnable {
         //TILE
         tileM.draw(g2);
         //OBJECT
-        for(int i = 0; i < obj.length; i++){
-            if (obj[i] != null) {
-                obj[i].draw(g2,this);
+        for (SuperObject superObject : obj) {
+            if (superObject != null) {
+                superObject.draw(g2, this);
             }
         }
         //PLAYER
