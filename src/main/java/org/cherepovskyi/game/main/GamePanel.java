@@ -1,5 +1,6 @@
 package org.cherepovskyi.game.main;
 
+import org.cherepovskyi.game.entity.Entity;
 import org.cherepovskyi.game.entity.Player;
 import org.cherepovskyi.game.object.SuperObject;
 import org.cherepovskyi.game.tile.TileManager;
@@ -27,8 +28,9 @@ public class GamePanel extends JPanel implements Runnable {
     //FPS
     int FPS = 60;
 
-    public TileManager tileM = new TileManager(this);
-    KeyHandler keyH = new KeyHandler();
+    //SYSTEM
+    TileManager tileM = new TileManager(this);
+    KeyHandler keyH = new KeyHandler(this);
     Sound music = new Sound();
     Sound se = new Sound();
     public CollisionChecker cChecker = new CollisionChecker(this);
@@ -36,9 +38,16 @@ public class GamePanel extends JPanel implements Runnable {
     public UI ui = new UI(this);
     Thread gameThread;
 
-    //ENTITY AND OBJECT
+    //ENTITY AND OBJECT AND NPC
     public Player player = new Player(this, keyH);
     public SuperObject[] obj = new SuperObject[10];
+    public Entity[] npc = new Entity[26];
+
+    //GAME STATE
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
+    public final int dialogueState = 3;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(screenWidth, screenHeight));
@@ -49,8 +58,9 @@ public class GamePanel extends JPanel implements Runnable {
     }
     public void setupGame(){
         aSetter.setOjgect();
-
-        playMusic(3);
+        aSetter.setNPC();
+        playMusic(1);
+        gameState = playState;
     }
     public final int fulScreenValues(String wigthOrHight){
         int returnValue = 0;
@@ -110,7 +120,19 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        player.update();
+        if(gameState == playState){
+            //PLAYER
+            player.update();
+            //NPC
+            for(Entity npcIn : npc) {
+                if(npcIn != null) {
+                    npcIn.update();
+                }
+            }
+        }
+        if(gameState == pauseState){
+            //nothing
+        }
     }
 
     public void paintComponent(Graphics g) {
@@ -125,6 +147,13 @@ public class GamePanel extends JPanel implements Runnable {
                 superObject.draw(g2, this);
             }
         }
+        //NPC
+        for(Entity npcIn : npc) {
+            if(npcIn != null) {
+                npcIn.draw(g2);
+            }
+        }
+
         //PLAYER
         player.draw(g2);
 
