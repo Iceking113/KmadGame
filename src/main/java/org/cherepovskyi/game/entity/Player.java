@@ -6,20 +6,19 @@ import org.cherepovskyi.game.main.KeyHandler;
 import org.cherepovskyi.game.main.UtilityTool;
 import org.cherepovskyi.game.tile.Tile;
 
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 
 public class Player extends Entity {
     GamePanel gp;
-    KeyHandler keyH;
+    public KeyHandler keyH;
 
     public final int screenX;
     public final int screenY;
     public int hasKey = 0;
 
     public Player(GamePanel gp, KeyHandler keyH) {
+        super(gp);
         this.gp = gp;
         this.keyH = keyH;
 
@@ -41,35 +40,23 @@ public class Player extends Entity {
     public void setDefaultValue() {
         worldX = gp.tileSize*25 - gp.tileSize/2;
         worldY = gp.tileSize*25 - gp.tileSize/2;
-        speed = 4;
+        speed = 3;
         direction = "down";
     }
 
     public void getPlayerImage(){
-        up1 = setup("up.png");
-        up2 = setup("up2.png");
+        up1 = setup("Player/up.png");
+        up2 = setup("Player/up2.png");
 
-        left1 = setup("left.png");
-        left2 = setup("left2.png");
+        left1 = setup("Player/left.png");
+        left2 = setup("Player/left2.png");
 
-        right1 = setup("right.png");
-        right2 = setup("right2.png");
+        right1 = setup("Player/right.png");
+        right2 = setup("Player/right2.png");
 
-        down1 = setup("down.png");
-        down2 = setup("down2.png");
+        down1 = setup("Player/down.png");
+        down2 = setup("Player/down2.png");
     }
-    public BufferedImage setup(String imagePath){
-        UtilityTool uTool = new UtilityTool();
-        BufferedImage image = null;
-        try{
-            image = ImageIO.read(getClass().getResourceAsStream(imagePath));
-            image = uTool.scaleImage(image, gp.tileSize, gp.tileSize);
-        }catch(IOException e){
-            e.printStackTrace();
-        }
-        return image;
-    }
-
     public void update() {
         if(keyH.upPressed || keyH.leftPressed || keyH.downPressed || keyH.rightPressed){
             if (keyH.upPressed) {
@@ -92,6 +79,9 @@ public class Player extends Entity {
             int objectIndex = gp.cChecker.checkObject(this, true);
             pickUpObject(objectIndex);
 
+            // CHECK NPC COLLISION
+            int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
+
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(!collisionOn){
                 switch (direction){
@@ -112,40 +102,26 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
+        int npcDialogueIndex = gp.cChecker.checkActionArria(this, gp.npc);
+        interactNPC(npcDialogueIndex);
     }
 
     public void pickUpObject(int index){
         if(index != 999){
-            String objectName = gp.obj[index].name;
-            switch (objectName){
-                case "key":
-                    gp.playSE(1);
-                    hasKey++;
-                    gp.obj[index] = null;
-                    gp.ui.showMessage("You got a key!");
-                    break;
-                case "door":
-                    if(hasKey > 0){
-                        gp.playSE(2);
-                        hasKey--;
-                        gp.obj[index] = null;
-                        gp.ui.showMessage("You opend the door!");
-                    }else{
-                        gp.ui.showMessage("You need a key!");
-                    }
-                    break;
-                case "coint":
-                    gp.stopMusic();
-                    gp.playSE(0);
-                    gp.ui.gameFinished = true;
+
+        }
+    }
+    public void interactNPC(int index) {
+        if(index != 999){
+            if(keyH.actionPressed){
+                gp.gameState = gp.dialogueState;
+                gp.npc[index].speak();
             }
+            gp.ui.showMessage("Prasse E");
         }
     }
 
     public void draw(Graphics2D g2) {
-
-        //g2.setColor(Color.white);
-        //g2.fillRect(x, y, qp.tileSize, qp.tileSize);
 
         BufferedImage image = null;
         switch (direction){
