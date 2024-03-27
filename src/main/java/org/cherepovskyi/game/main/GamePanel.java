@@ -7,6 +7,7 @@ import org.cherepovskyi.game.tile.TileManager;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
 
 public class GamePanel extends JPanel implements Runnable {
 
@@ -45,6 +46,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     //GAME STATE
     public int gameState;
+    public final int titleState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogueState = 3;
@@ -59,14 +61,13 @@ public class GamePanel extends JPanel implements Runnable {
     public void setupGame(){
         aSetter.setOjgect();
         aSetter.setNPC();
-        playMusic(1);
-        gameState = playState;
+        gameState = titleState;
     }
     public final int fulScreenValues(String wigthOrHight){
         int returnValue = 0;
         Dimension size = Toolkit.getDefaultToolkit().getScreenSize();
-        if(wigthOrHight == "Width") returnValue = (int) size.getWidth();
-        if(wigthOrHight == "Height") returnValue = (int) size.getHeight();
+        if(Objects.equals(wigthOrHight, "Width")) returnValue = (int) size.getWidth();
+        if(Objects.equals(wigthOrHight, "Height")) returnValue = (int) size.getHeight();
         return returnValue;
     }
 
@@ -133,32 +134,43 @@ public class GamePanel extends JPanel implements Runnable {
         if(gameState == pauseState){
             //nothing
         }
+        if(gameState == titleState){
+            //nothing
+        }
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D) g;
-        //TILE
-        tileM.draw(g2);
-        //OBJECT
-        for (SuperObject superObject : obj) {
-            if (superObject != null) {
-                superObject.draw(g2, this);
-            }
-        }
-        //NPC
-        for(Entity npcIn : npc) {
-            if(npcIn != null) {
-                npcIn.draw(g2);
-            }
-        }
 
-        //PLAYER
-        player.draw(g2);
+        // TITLE SCRIN
+        if(gameState == titleState) {
+            ui.draw(g2);
+        }
+        // OTHERS
+        else {
+            //TILE
+            tileM.draw(g2);
+            //OBJECT
+            for (SuperObject superObject : obj) {
+                if (superObject != null) {
+                    superObject.draw(g2, this);
+                }
+            }
+            //NPC
+            for(Entity npcIn : npc) {
+                if(npcIn != null) {
+                    npcIn.draw(g2);
+                }
+            }
 
-        //UI
-        ui.drow(g2);
+            //PLAYER
+            player.draw(g2);
+
+            //UI
+            ui.draw(g2);
+        }
 
         g2.dispose();
     }

@@ -3,8 +3,6 @@ package org.cherepovskyi.game.entity;
 
 import org.cherepovskyi.game.main.GamePanel;
 import org.cherepovskyi.game.main.KeyHandler;
-import org.cherepovskyi.game.main.UtilityTool;
-import org.cherepovskyi.game.tile.Tile;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

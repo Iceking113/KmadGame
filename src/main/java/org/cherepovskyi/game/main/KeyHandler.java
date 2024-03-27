@@ -50,6 +50,28 @@ public class KeyHandler implements KeyListener {
 			}
 
 		}
+		//
+		else if (gp.gameState == gp.titleState) {
+			if(code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+				gp.ui.commandNumb--;
+				if(gp.ui.commandNumb < 0) gp.ui.commandNumb = 2;
+			}
+			if(code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+				gp.ui.commandNumb++;
+				if(gp.ui.commandNumb > 2) gp.ui.commandNumb = 0;
+			}
+			if(code == KeyEvent.VK_ENTER || code == KeyEvent.VK_SPACE) {
+				if(gp.ui.commandNumb == 0) {
+					gp.stopMusic();
+					gp.playMusic(1);
+					gp.gameState = gp.playState;
+				} else if(gp.ui.commandNumb == 1) {
+					//
+				} else if(gp.ui.commandNumb == 2) {
+					System.exit(0);
+				}
+			}
+		}
 		//DIALOGUE STATE
 		else if(gp.gameState == gp.dialogueState) {
 			if(code == KeyEvent.VK_ENTER || code == KeyEvent.VK_SPACE || code == KeyEvent.VK_E) {

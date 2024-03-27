@@ -30,13 +30,10 @@ public class NPC_1 extends Entity {
     }
 
     public void setDialogue() {
-        dialogue[0] = "Constructs a new String by decoding the\nspecified array of bytes using the platform's\ndefault charset.";
+        dialogue[0] = "Hi!";
         dialogue[1] = "How are you?";
-        dialogue[2] = "Do you know abuot water?";
-        dialogue[3] = "HA";
-        dialogue[4] = "HAAA";
-        dialogue[5] = "HAAAAAA";
-
+        dialogue[2] = "Would you mind to drink a cup of coffee with me?";
+        dialogue[3] = "  /\\      /\\     I like your ;)\n\\     \\/     /\n  \\        /\n      \\/";
     }
 
     public void setAction() {
@@ -48,11 +45,11 @@ public class NPC_1 extends Entity {
 
             if(i <= 25) {
                 direction = "up";
-            } else if (i > 25 && i <= 50) {
+            } else if (i <= 50) {
                 direction = "down";
-            } else if (i > 50 && i <= 75) {
+            } else if (i <= 75) {
                 direction = "left";
-            }  else if (i > 75 && i <= 100) {
+            }  else {
                 direction = "right";
             }
             actionLockCounter = 0;
