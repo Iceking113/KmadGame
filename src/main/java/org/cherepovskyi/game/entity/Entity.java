@@ -13,7 +13,7 @@ public class Entity {
 	public int worldX, worldY;
 	public int speed;
 	public BufferedImage up1, up2, down1, down2, left1, left2, right1, right2;
-	public String direction;
+	public String direction = "down";
 	public int spriteCounter = 0;
 	public int spriteNum = 1;
 	public Rectangle solidArea = new Rectangle(0, 0, 64, 64);
@@ -25,7 +25,13 @@ public class Entity {
 	//public int actionWaitCounter = 0;
 	public String[] dialogue = new String[20];
 	public int dialogueIndex = 0;
+	public BufferedImage image, image_2, image_3;
+	public String name;
+	public boolean colision = false;
 
+	//cherecter status
+	public int maxLife;
+	public int life;
 
 
 	public Entity(GamePanel gp) {

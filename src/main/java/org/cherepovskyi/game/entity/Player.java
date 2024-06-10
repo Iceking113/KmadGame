@@ -24,35 +24,39 @@ public class Player extends Entity {
         screenY = gp.screenHeight/2;
 
         solidArea = new Rectangle();
-        solidArea.x = 16;
-        solidArea.y = 16;
+        solidArea.x = 24;
+        solidArea.y = 32;
         solidArreaDefaultX = solidArea.x;
         solidArreaDefaultY = solidArea.y;
         solidArea.width = 16;
-        solidArea.height = 16;
+        solidArea.height = 32;
 
         setDefaultValue();
         getPlayerImage();
     }
 
     public void setDefaultValue() {
-        worldX = gp.tileSize*25 - gp.tileSize/2;
-        worldY = gp.tileSize*25 - gp.tileSize/2;
+        worldX = gp.tileSize*19;// - gp.tileSize/2;
+        worldY = gp.tileSize*43;// - gp.tileSize/2;
         speed = 3;
         direction = "down";
+
+        //player status
+        maxLife = 6;
+        life = maxLife;
     }
 
     public void getPlayerImage(){
-        up1 = setup("Player/up.png");
+        up1 = setup("Player/up1.png");
         up2 = setup("Player/up2.png");
 
-        left1 = setup("Player/left.png");
+        left1 = setup("Player/left1.png");
         left2 = setup("Player/left2.png");
 
-        right1 = setup("Player/right.png");
+        right1 = setup("Player/right1.png");
         right2 = setup("Player/right2.png");
 
-        down1 = setup("Player/down.png");
+        down1 = setup("Player/down1.png");
         down2 = setup("Player/down2.png");
     }
     public void update() {
@@ -80,6 +84,11 @@ public class Player extends Entity {
             // CHECK NPC COLLISION
             int npcIndex = gp.cChecker.checkEntity(this, gp.npc);
 
+            // CHECK EVENT
+            gp.eHandler.checkEvent();
+
+            gp.keyH.enterPressed = false;
+
             // IF COLLISION IS FALSE, PLAYER CAN MOVE
             if(!collisionOn){
                 switch (direction){
@@ -100,7 +109,7 @@ public class Player extends Entity {
                 spriteCounter = 0;
             }
         }
-        int npcDialogueIndex = gp.cChecker.checkActionArria(this, gp.npc);
+        int npcDialogueIndex = gp.cChecker.checkActionArria(this, gp.npc[gp.currentMap]);
         interactNPC(npcDialogueIndex);
     }
 
@@ -113,7 +122,7 @@ public class Player extends Entity {
         if(index != 999){
             if(keyH.actionPressed){
                 gp.gameState = gp.dialogueState;
-                gp.npc[index].speak();
+                gp.npc[gp.currentMap][index].speak();
             }
             gp.ui.showMessage("Prasse E");
         }

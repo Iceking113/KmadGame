@@ -9,8 +9,8 @@ public class NPC_1 extends Entity {
     public NPC_1(GamePanel gp){
         super(gp);
         this.gp = gp;
-        direction = "down";
-        speed = 1;
+        direction = "right";
+        speed = 0;
         getImage();
     }
     public void getImage(){
@@ -20,8 +20,8 @@ public class NPC_1 extends Entity {
         left1 = setup("NPC/left.png");
         left2 = setup("NPC/left2.png");
 
-        right1 = setup("NPC/right.png");
-        right2 = setup("NPC/right2.png");
+        right1 = setup("NPC/right1.png");
+        right2 = setup("NPC/right1.png");
 
         down1 = setup("NPC/down.png");
         down2 = setup("NPC/down2.png");
@@ -37,7 +37,7 @@ public class NPC_1 extends Entity {
     }
 
     public void setAction() {
-        actionLockCounter++;
+        /*actionLockCounter++;
 
         if(actionLockCounter > 120) {
             Random random = new Random();
@@ -53,7 +53,7 @@ public class NPC_1 extends Entity {
                 direction = "right";
             }
             actionLockCounter = 0;
-        }
+        }*/
     }
     public void speak() {
         super.speak();

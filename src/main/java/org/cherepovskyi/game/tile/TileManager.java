@@ -13,22 +13,112 @@ import java.io.InputStreamReader;
 public class TileManager {
     GamePanel gp;
     public Tile[] tile;
-    public int[][] mapTileNum;
+    public int[][][] mapTileNum;
     public TileManager(GamePanel gp){
         this.gp = gp;
 
-        tile = new Tile[10];
-        mapTileNum = new int[gp.maxWorldCol][gp.maxWorldRow];
+        tile = new Tile[100];
+        mapTileNum = new int[gp.maxMap][gp.maxWorldCol][gp.maxWorldRow];
 
         getTileImage();
-        loadMap("TestMap2.txt");
+        loadMap("TestMap2.txt", 0);
+        loadMap("map1.txt", 1);
+        loadMap("map2.txt", 2);
+        //loadMap("TestMap.txt", 1);
     }
     public void getTileImage(){
-        setup(0, "tile_1.png", true);
-        setup(1, "tile_2.png", false);
-        setup(2, "tile_3.png", false);
-        setup(3, "tile_4.png", true);
-        setup(4, "Tree.png", true);
+        setup(0, "001.png", true);
+        setup(1, "002.png", true);
+        setup(2, "003.png", false);
+        setup(3, "004.png", true);
+
+        setup(4, "005.png", true);
+        setup(5, "006.png", true);
+        setup(6, "007.png", true);
+        setup(7, "008.png", true);
+
+        setup(8, "009.png", true);
+        setup(9, "010.png", true);
+        setup(10, "011.png", true);
+        setup(11, "012.png", true);
+
+        setup(12, "013.png", true);
+        setup(13, "014.png", true);
+        setup(14, "015.png", true);
+        setup(15, "016.png", true);
+
+        setup(16, "017.png", true);
+        setup(17, "018.png", true);
+        setup(18, "019.png", true);
+        setup(19, "020.png", true);
+
+        setup(20, "021.png", true);
+        setup(21, "022.png", true);
+        setup(22, "023.png", true);
+        setup(23, "024.png", true);
+
+        setup(24, "025.png", false);
+        setup(25, "026.png", false);
+        setup(26, "027.png", false);
+        setup(27, "028.png", false);
+
+        setup(28, "029.png", true);
+        setup(29, "030.png", true);
+        setup(30, "031.png", true);
+        setup(31, "032.png", true);
+
+        setup(32, "033.png", true);
+        setup(33, "034.png", true);
+        setup(34, "035.png", true);
+        setup(35, "036.png", true);
+
+        setup(36, "037.png", true);
+        setup(37, "038.png", true);
+        setup(38, "039.png", true);
+        setup(39, "040.png", true);
+
+        setup(40, "041.png", true);
+        setup(41, "042.png", true);
+        setup(42, "043.png", true);
+        setup(43, "044.png", true);
+
+        setup(44, "045.png", true);
+        setup(45, "046.png", true);
+        setup(46, "047.png", true);
+        setup(47, "048.png", true);
+
+        setup(48, "049.png", true);
+        setup(49, "050.png", true);
+        setup(50, "051.png", true);
+        setup(51, "052.png", true);
+
+        setup(52, "053.png", true);
+        setup(53, "054.png", false);
+        setup(54, "055.png", true);
+        setup(55, "056.png", true);
+
+        setup(56, "057.png", true);
+        setup(57, "058.png", true);
+        setup(58, "059.png", true);
+        setup(59, "060.png", true);
+
+        setup(60, "061.png", true);
+        setup(61, "062.png", true);
+        setup(62, "063.png", true);
+        setup(63, "064.png", true);
+
+        setup(64, "065.png", true);
+        setup(65, "066.png", true);
+        setup(66, "067.png", true);
+        setup(67, "068.png", true);
+
+        setup(68, "069.png", true);
+        setup(69, "070.png", true);
+        setup(70, "071.png", true);
+        setup(71, "072.png", true);
+
+        setup(72, "073.png", true);
+        setup(73, "074.png", true);
     }
     public void setup(int index, String imagePath, boolean collision){
         UtilityTool uTool = new UtilityTool();
@@ -41,7 +131,7 @@ public class TileManager {
             e.printStackTrace();
         }
     }
-    public  void loadMap(String filePath) {
+    public  void loadMap(String filePath, int map) {
         try {
             InputStream is = getClass().getResourceAsStream(filePath);
             BufferedReader br = new BufferedReader(new InputStreamReader(is));
@@ -55,7 +145,7 @@ public class TileManager {
                     String[] numbers = line.split(" ");
                     int num = Integer.parseInt(numbers[col]);
 
-                    mapTileNum[col][row] = num;
+                    mapTileNum[map][col][row] = num;
                     col++;
                 }
                 if(col == gp.maxWorldCol){
@@ -75,7 +165,7 @@ public class TileManager {
 
         while (worldCol < gp.maxWorldCol && worldRow < gp.maxWorldRow){
 
-            int tileNum = mapTileNum[worldCol][worldRow];
+            int tileNum = mapTileNum[gp.currentMap][worldCol][worldRow];
 
             int worldX = worldCol * gp.tileSize;
             int worldY = worldRow * gp.tileSize;
